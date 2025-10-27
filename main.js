@@ -54,7 +54,8 @@ try {
                 
                 await fs.writeFile(filePath, response.body);
                 console.log('Saved to cache (from http.cat) :', httpCode);
-
+                console.log('Sent from cache :', httpCode);
+                
                 res.writeHead(200, { 'Content-Type': 'image/jpeg' });
                 res.end(response.body);
               } catch (proxyError) {
