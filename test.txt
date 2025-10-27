@@ -1,0 +1,14 @@
+# getting non-existent yet image
+curl -v GET http://localhost:3000/404 
+
+# uploading image 404
+curl -X PUT --data-binary "@404.jpg" http://localhost:3000/404
+
+# getting image 404
+curl http://localhost:3000/404 --output 404_output.jpg
+
+# deleting image 404
+curl -X DELETE http://localhost:3000/404
+
+# illegal method
+curl -X POST http://localhost:3000/404
