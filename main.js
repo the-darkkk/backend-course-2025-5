@@ -48,8 +48,20 @@ try {
           } catch (fileError) {
             if (fileError.code === 'ENOENT') {
               console.log('Not found in cache :', httpCode);
-               res.writeHead(404);
-               res.end('Not Found');
+              try {
+                const httpCatUrl = `https://http.cat/${httpCode}`;
+                const response = await superagent.get(httpCatUrl).responseType('blob');
+                
+                await fs.writeFile(filePath, response.body);
+                console.log('Saved to cache (from http.cat) :', httpCode);
+
+                res.writeHead(200, { 'Content-Type': 'image/jpeg' });
+                res.end(response.body);
+              } catch (proxyError) {
+                console.error('Error :', proxyError.message);
+                res.writeHead(404);
+                res.end('Not Found');
+              } 
             } else {
               throw fileError; 
             }
